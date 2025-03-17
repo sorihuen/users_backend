@@ -92,6 +92,7 @@ const getUserById = async (req, res) => {
   }
 };
 
+//***  Actualizar un usuario por ID *****
 
 const updateUser = async (req, res) => {
   try {
@@ -116,6 +117,77 @@ const updateUser = async (req, res) => {
   }
 };
 
+//***  Eliminar un usuario por ID *****
+
+const deleteUser = async (req, res) => {
+  try {
+      const { id } = req.params;
+      
+      // Buscar y eliminar el usuario
+      const deletedUser = await User.findByIdAndDelete(id);
+
+      if (!deletedUser) {
+          return res.status(404).json({ error: "Usuario no encontrado" });
+      }
+
+      res.status(200).json({ message: "Usuario eliminado exitosamente" });
+
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+
+
+// **** Buscar usuarios que tengan una dirección en una ciudad específica ***
+
+const searchUsersByCity = async (req, res) => {
+  try {
+    const { city } = req.query;
+
+    // Validar que se haya proporcionado una ciudad
+    if (!city) {
+      return res.status(400).json({ error: "Debe proporcionar una ciudad en la consulta" });
+    }
+
+    // Buscar usuarios que tengan al menos una dirección en la ciudad especificada
+    const users = await User.find({ "addresses.city": { $regex: new RegExp(city, "i") } });
+
+    // Filtrar las direcciones de cada usuario para incluir solo las que coinciden con la ciudad buscada
+    const filteredUsers = users.map(user => {
+      const filteredAddresses = user.addresses.filter(address =>
+        address.city.toLowerCase() === city.toLowerCase()
+      );
+
+      // Convertir el usuario a JSON para aplicar las transformaciones definidas en el esquema
+      const userJson = user.toJSON();
+
+      // Devolver el usuario con las direcciones filtradas
+      return {
+        ...userJson,
+        addresses: filteredAddresses // Reemplazar las direcciones originales con las filtradas
+      };
+    });
+
+    // Si no se encontraron usuarios con direcciones en la ciudad especificada
+    if (filteredUsers.length === 0 || filteredUsers.every(user => user.addresses.length === 0)) {
+      return res.status(200).json({
+        message: "No se encontraron usuarios en la ciudad especificada",
+        data: []
+      });
+    }
+
+    // Devolver la respuesta con los usuarios y sus direcciones filtradas
+    res.status(200).json({
+      message: "Usuarios encontrados exitosamente",
+      data: filteredUsers
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
 
 module.exports = { 
   createUser, 
@@ -123,6 +195,8 @@ module.exports = {
   getUsers,
   getUserById, 
   updateUser,
+  deleteUser,
+  searchUsersByCity
 
 };
 

@@ -1,10 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, validateUser, getUsers, getUserById, updateUser} = require('../controllers/userController');
+const { 
+    createUser, 
+    validateUser, 
+    getUsers, 
+    getUserById, 
+    updateUser, 
+    deleteUser, 
+    searchUsersByCity 
+} = require('../controllers/userController'); 
 
+// Ruta para crear un nuevo usuario. Se ejecuta `validateUser` antes de `createUser`
+router.post('/users', validateUser, createUser); 
 
-router.post('/users', validateUser, createUser); // Ruta para crear un usuario (POST)
-router.get('/users/:id', getUserById); // Obtener usuario por ID
-router.get('/users', getUsers); // listar todos los usuarios
-router.put('/users/:id', updateUser); // actualizar un usuario por ID (PUT)
+// Ruta para buscar usuarios por ciudad. Se accede con `/users/search?ciudad=nombre_ciudad`
+router.get('/users/search', searchUsersByCity); 
+
+// Ruta para obtener la lista de todos los usuarios
+router.get('/users', getUsers); 
+
+// Ruta para obtener un usuario específico por su ID
+router.get('/users/:id', getUserById); 
+
+// Ruta para actualizar un usuario por su ID
+router.put('/users/:id', updateUser); 
+
+// Ruta para eliminar un usuario por su ID
+router.delete('/users/:id', deleteUser); 
+
 module.exports = router;
