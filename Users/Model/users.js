@@ -1,34 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
-// Esquema para las direcciones
-const direccionSchema = new mongoose.Schema({
-  calle: String,
-  ciudad: String,
-  pais: String,
-  codigo_postal: String
+// Schema for addresses (Esquema para las direcciones)
+const addressSchema = new mongoose.Schema({
+  street: String, // Calle
+  city: String,   // Ciudad
+  country: String, // País
+  postal_code: String // Código postal
 });
 
-// Esquema de Usuario
-const usuarioSchema = new mongoose.Schema({
-  nombre: {
-    type: String,
-    required: true
+// User schema (Esquema de Usuario)
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String, // Tipo de dato: cadena de texto
+    required: true // Campo requerido
   },
   email: {
-    type: String,
-    required: true,
-    unique: true
+    type: String, // Tipo de dato: cadena de texto
+    required: true, // Campo requerido
+    unique: true // Debe ser único en la base de datos
   },
-  edad: {
-    type: Number,
-    required: false
+  age: {
+    type: Number, // Tipo de dato: número
+    required: false // Campo opcional
   },
-  fecha_creacion: {
-    type: Date,
-    default: Date.now
+  created_at: {
+    type: Date, // Tipo de dato: fecha
+    default: Date.now // Valor por defecto: la fecha actual
   },
-  direcciones: [direccionSchema]
+  addresses: [addressSchema] // Relación con el esquema de direcciones 
 });
 
-module.exports = mongoose.model('Usuario', usuarioSchema);
+module.exports = mongoose.model('User', userSchema);
 
