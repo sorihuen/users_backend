@@ -1,4 +1,5 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2'); 
 
 // Schema for addresses (Esquema para las direcciones)
 const addressSchema = new mongoose.Schema({
@@ -30,5 +31,29 @@ const userSchema = new mongoose.Schema({
   addresses: [addressSchema] // Relación con el esquema de direcciones 
 });
 
+// Plugin de paginación al esquema
+userSchema.plugin(mongoosePaginate);
+
+// eliminar campos innecesarios en la respuesta JSON
+userSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    ret.id = ret._id; // Agregar `id`
+    delete ret._id;
+    delete ret.__v;
+
+    // Reordenar las claves
+    return {
+      id: ret.id, 
+      name: ret.name,
+      email: ret.email,
+      age: ret.age,
+      addresses: ret.addresses,
+      created_at: ret.created_at
+    };
+  }
+});
+
+
+// Exportamos el modelo
 module.exports = mongoose.model('User', userSchema);
 
