@@ -37,7 +37,7 @@ Este es un backend desarrollado con Node.js, Express y MongoDB que proporciona u
 3. Configurar variables de entorno:
    - Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
      ```
-    MONGODB_URI=mongodb+srv://sanyelibermudez:FE1UJymTKkztvoyc@prueba.zrr7i.mongodb.net/prueba_backend?retryWrites=true&w=majority&appName=prueba
+      MONGODB_URI=mongodb+srv://sanyelibermudez:FE1UJymTKkztvoyc@prueba.zrr7i.mongodb.net/prueba_backend?retryWrites=true&w=majority&appName=prueba
 
      ```
 ## Estructura del proyecto
