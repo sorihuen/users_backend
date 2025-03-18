@@ -17,7 +17,7 @@ Este es un backend desarrollado con Node.js, Express y MongoDB que proporciona u
 
 ## Requisitos previos
 
-- Node.js (versión 14 o superior)
+- Node.js (versión 20.17.0)
 - npm
 - Cuenta en MongoDB Atlas
 
