@@ -48,7 +48,7 @@ backend_Users/
 ├── node_modules/           # Dependencias instaladas
 ├── Users/                  # Directorio principal de usuarios
 │   ├── Middleware/         # Middlewares personalizados
-│   │   ├── hubs.js         # Middleware para hubs
+│   │   ├── validation.js   # Middleware para hubs
 │   ├── Model/              # Modelos de datos
 │   │   └── users.js        # Modelo de Usuario
 │   └── Routes/             # Rutas de la API
